@@ -1,0 +1,19 @@
+service: sherldoc
+
+# Name of the container image.
+image: sherldoc
+
+# Deploy to these servers.
+servers:
+  web:
+    - 159.203.76.193
+registry:
+  server: registry.digitalocean.com/team-james-demo
+  username: my-user
+
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+builder:
+  arch: amd64
+  dockerfile: docker/app/php/php.dockerfile
