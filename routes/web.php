@@ -7,4 +7,5 @@ Route::get('/', function() {
     return redirect('/main');
 });
 
+
 Route::post('/scan', [GeneralController::class, 'scan'])->name('scan');
