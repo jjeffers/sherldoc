@@ -32,8 +32,20 @@ COPY ./docker/app/php/99-local.ini /usr/local/etc/php/conf.d/99-local.ini
 RUN curl https://frankenphp.dev/install.sh | sh \
     && mv frankenphp /usr/local/bin/
 
-WORKDIR /app/public
+WORKDIR /app
+
+RUN mkdir -p storage storage/framework storage/framework/cache storage/framework/sessions storage/framework/testing storage/framework/views storage/logs;
+RUN composer install;
 
 EXPOSE 80
+EXPOSE 9000
 
-CMD frankenphp php-server
+CMD php artisan migrate --force; \
+    php artisan route:cache; \
+    php artisan config:cache; \
+    npm install; \
+    { npm run dev & }; \
+    cd /app/public; \
+    frankenphp php-server
+
+

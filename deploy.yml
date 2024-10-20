@@ -7,7 +7,11 @@ image: sherldoc
 # Deploy to these servers.
 servers:
   web:
-    - 159.203.76.193
+    hosts:
+      - 159.203.76.193
+  db:
+    hosts:
+      - 159.203.76.193
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -20,10 +24,9 @@ proxy:
   #ssl: true
   host: 159.203.76.193
   # kamal-proxy connects to your container over port 80, use `app_port` to specify a different port.
-  app_port: 80
   healthcheck:
     interval: 3
-    path: /
+    path: /main/login
     timeout: 3
 
 # Credentials for your image host.
@@ -44,9 +47,9 @@ builder:
 
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 #
-# env:
-#   clear:
-#     DB_HOST: 192.168.0.2
+env:
+   clear:
+     DB_HOST: 159.203.76.193
 #   secret:
 #     - RAILS_MASTER_KEY
 
@@ -80,21 +83,18 @@ builder:
 
 # Use accessory services (secrets come from .kamal/secrets).
 #
-#accessories:
-#   db:
-#     image: mysql:8.0
-#     host: 192.168.0.2
-#     port: 3306
-#     env:
-#       clear:
-#         MYSQL_ROOT_HOST: '%'
-#       secret:
-#         - MYSQL_ROOT_PASSWORD
-#     files:
-#       - config/mysql/production.cnf:/etc/mysql/my.cnf
-#       - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
-#     directories:
-#       - data:/var/lib/mysql
+accessories:
+  postgres:
+      roles:
+        - db
+      image: pgvector/pgvector:pg16
+      port: 5432
+      env:
+        POSTGRES_PASSWORD: sherldoc
+        POSTGRES_USER: sherldoc
+        POSTGRES_DB: sherldoc
+      directories:
+        - ./docker/pgdata161:/var/lib/postgresql/data
 #   redis:
 #     image: redis:7.0
 #     host: 192.168.0.2
