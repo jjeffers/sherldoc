@@ -2,14 +2,16 @@
 service: sherldoc
 
 # Name of the container image.
-image: sherldoc
+image: sherldoc-web
 
 # Deploy to these servers.
 servers:
   web:
     hosts:
       - 159.203.76.193
-  db:
+    cmd: bash -c "/app/prepare_app.sh && cd /app/public; frankenphp php-server"
+
+  workers:
     hosts:
       - 159.203.76.193
   # job:
@@ -85,8 +87,7 @@ env:
 #
 accessories:
   postgres:
-      roles:
-        - db
+      host: 159.203.76.193
       image: pgvector/pgvector:pg16
       port: 5432
       env:

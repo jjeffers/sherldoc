@@ -28,6 +28,8 @@ RUN pecl install xdebug \
 
 COPY ./ /app
 COPY ./docker/app/php/99-local.ini /usr/local/etc/php/conf.d/99-local.ini
+COPY --chmod=744 ./docker/app/php/prepare_app.sh /app/prepare_app.sh
+
 
 RUN curl https://frankenphp.dev/install.sh | sh \
     && mv frankenphp /usr/local/bin/
@@ -38,14 +40,3 @@ RUN mkdir -p storage storage/framework storage/framework/cache storage/framework
 RUN composer install;
 
 EXPOSE 80
-EXPOSE 9000
-
-CMD php artisan migrate --force; \
-    php artisan route:cache; \
-    php artisan config:cache; \
-    npm install; \
-    { npm run dev & }; \
-    cd /app/public; \
-    frankenphp php-server
-
-
