@@ -14,6 +14,7 @@ servers:
   workers:
     hosts:
       - 159.203.76.193
+    cmd: bash -c "/app/artisan queue:work"
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -96,9 +97,14 @@ accessories:
         POSTGRES_DB: sherldoc
       directories:
         - ./docker/pgdata161:/var/lib/postgresql/data
-#   redis:
-#     image: redis:7.0
-#     host: 192.168.0.2
-#     port: 6379
-#     directories:
-#       - data:/data
+
+  redis:
+     host: 159.203.76.193
+     image: redis:6
+     directories:
+      - data.redis:/data
+
+  tika:
+    host: 159.203.76.193
+    image: apache/tika:2.9.2.1-full
+    port: "9998:9998"
