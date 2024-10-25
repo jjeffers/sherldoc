@@ -1,0 +1,9 @@
+#!/bin/bash
+
+RESOURCES_DIR=resources
+PDFBOX_JARFILE=pdfbox-3.0.2.jar
+
+echo "Checking for $RESOURCES_DIR/$PDFBOX_JARFILE first..."
+if ! [[ -f "$RESOURCES_DIR/$PDFBOX_JARFILE" ]]; then
+    wget --directory-prefix=resources https://archive.apache.org/dist/pdfbox/3.0.2/$PDFBOX_JARFILE
+fi
