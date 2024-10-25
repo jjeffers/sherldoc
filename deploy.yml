@@ -30,7 +30,7 @@ proxy:
   healthcheck:
     interval: 3
     path: /main/login
-    timeout: 3
+    timeout: 30
 
 # Credentials for your image host.
 registry:
