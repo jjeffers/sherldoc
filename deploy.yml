@@ -24,8 +24,8 @@ servers:
 # If using something like Cloudflare, it is recommended to set encryption mode
 # in Cloudflare's SSL/TLS setting to "Full" to enable end-to-end encryption.
 proxy:
-  #ssl: true
-  host: 159.203.76.193
+  ssl: true
+  host: sherldoc.planzerollc.com
   # kamal-proxy connects to your container over port 80, use `app_port` to specify a different port.
   healthcheck:
     interval: 3
